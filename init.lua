@@ -1,3 +1,6 @@
+vim.g.UltiSnipsExpandTrigger="<tab>"
+vim.g.UltiSnipsJumpForwardTrigger="<tab>"
+vim.g.UltiSnipsJumpBackwardTrigger="<s-tab>"
 vim.g.mapleader = ','
 vim.g.maplocalleader = ','
 vim.g.loaded_netrw = 1
@@ -20,13 +23,15 @@ vim.fn.system({
   })
 end
 vim.opt.rtp:prepend(lazypath)
-	
+
 require("lazy").setup({
 	'lervag/vimtex',
-	
+
 	'SirVer/ultisnips',
 	
-	'honza/vim-snippets',
+	'quangnguyen30192/cmp-nvim-ultisnips',
+
+	--'honza/vim-snippets',
 
 	{
     'rose-pine/neovim',
@@ -46,14 +51,14 @@ require("lazy").setup({
 	'nvim-lua/plenary.nvim',
 
 	'nvim-tree/nvim-tree.lua',
-  
+
 ---	'Shougo/deoplete.nvim',
-  
+
 	'roxma/nvim-yarp',
-  
+
 	'roxma/vim-hug-neovim-rpc',
 
-	'nvim-treesitter/nvim-treesitter',
+	--'nvim-treesitter/nvim-treesitter',
 
     {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
@@ -104,14 +109,16 @@ require("lazy").setup({
     mappings = true,
 		
   }
-}
-
+},
+defaults = { lazy = true}
 })
 
-vim.g.UltiSnipsExpandTrigger="<tab>"
-vim.g.UltiSnipsJumpForwardTrigger="<CR>"
 vim.g['deoplete#enable_at_startup'] = 1
+vim.g.UltiSnipsSnippetDirectories={"UltiSnips"}
 vim.g.vimtex_view_method = 'zathura'
+vim.g.vimtex_quickfix_mode=0
+vim.opt.conceallevel=1
+vim.g.tex_conceal='abdmg'
 vim.opt.autochdir = true
 vim.keymap.set("n", "K", vim.lsp.buf.hover, {buffer=0})
 vim.keymap.set("n", "gd", vim.lsp.buf.definition, {buffer=0})
@@ -152,15 +159,6 @@ local cmp = require'cmp'
       -- { name = 'luasnip' }, -- For luasnip users.
       { name = 'ultisnips' }, -- For ultisnips users.
       -- { name = 'snippy' }, -- For snippy users.
-    }, {
-      { name = 'buffer' },
-    })
-  })
-
-  -- Set configuration for specific filetype.
-  cmp.setup.filetype('gitcommit', {
-    sources = cmp.config.sources({
-      { name = 'git' }, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
     }, {
       { name = 'buffer' },
     })
