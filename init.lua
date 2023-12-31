@@ -81,7 +81,7 @@ require("lazy").setup({
 	'hrsh7th/nvim-cmp',
 	'hrsh7th/cmp-nvim-lsp',
 	'hrsh7th/cmp-buffer',
-	'hrsh7th/vim-vsnip',
+	--'hrsh7th/vim-vsnip',
 	'andrewradev/switch.vim',
 	'tomtom/tcomment_vim',
 	'nvim-telescope/telescope.nvim',
@@ -109,12 +109,12 @@ require("lazy").setup({
 })
 
 vim.g.UltiSnipsExpandTrigger="<tab>"
-vim.g.UltiSnipsJumpForwardTrigger="<tab>"
-vim.g.UltiSnipsJumpBackwardTrigger="<s-tab>"
+vim.g.UltiSnipsJumpForwardTrigger="<CR>"
 vim.g['deoplete#enable_at_startup'] = 1
 vim.g.vimtex_view_method = 'zathura'
 vim.opt.autochdir = true
-vim.keymap.set("n", "K", vim.lsp.buf.hover)
+vim.keymap.set("n", "K", vim.lsp.buf.hover, {buffer=0})
+vim.keymap.set("n", "gd", vim.lsp.buf.definition, {buffer=0})
 
 local api = require "nvim-tree.api"
 
@@ -129,10 +129,10 @@ local cmp = require'cmp'
     snippet = {
       -- REQUIRED - you must specify a snippet engine
       expand = function(args)
-        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+        -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
         -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
         -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
-        --vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+        vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
       end,
     },
     window = {
@@ -144,11 +144,11 @@ local cmp = require'cmp'
       ['<C-f>'] = cmp.mapping.scroll_docs(4),
       ['<C-Space>'] = cmp.mapping.complete(),
       ['<C-e>'] = cmp.mapping.abort(),
-      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+      ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     }),
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
-      { name = 'vsnip' }, -- For vsnip users.
+      -- { name = 'vsnip' }, -- For vsnip users.
       -- { name = 'luasnip' }, -- For luasnip users.
       { name = 'ultisnips' }, -- For ultisnips users.
       -- { name = 'snippy' }, -- For snippy users.
