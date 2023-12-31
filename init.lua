@@ -29,7 +29,6 @@ require("lazy").setup({
 	'honza/vim-snippets',
 
 	{
-    -- Theme inspired by Atom
     'rose-pine/neovim',
     priority = 1000,
     config = function()
@@ -117,7 +116,12 @@ vim.g.vimtex_view_method = 'zathura'
 vim.opt.autochdir = true
 vim.keymap.set("n", "K", vim.lsp.buf.hover)
 
-require'nvim-tree'.setup{}
+local api = require "nvim-tree.api"
+
+require'nvim-tree'.setup{
+	vim.keymap.set('n', '<localleader>tt',     api.tree.toggle)
+}
+
 require'mason'.setup{}
 local cmp = require'cmp'
 
