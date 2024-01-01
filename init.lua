@@ -10,6 +10,7 @@ local set = vim.opt -- set options
 set.tabstop = 2
 set.softtabstop = 2
 set.shiftwidth = 2
+vim.opt.signcolumn = "yes:1"
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -31,8 +32,6 @@ require("lazy").setup({
 	
 	'quangnguyen30192/cmp-nvim-ultisnips',
 
-	--'honza/vim-snippets',
-
 	{
     'rose-pine/neovim',
     priority = 1000,
@@ -52,8 +51,6 @@ require("lazy").setup({
 
 	'nvim-tree/nvim-tree.lua',
 
----	'Shougo/deoplete.nvim',
-
 	'roxma/nvim-yarp',
 
 	'roxma/vim-hug-neovim-rpc',
@@ -64,7 +61,6 @@ require("lazy").setup({
     -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
     opts = {
-      -- See `:help gitsigns.txt`
       signs = {
         add = { text = '+' },
         change = { text = '~' },
@@ -86,7 +82,6 @@ require("lazy").setup({
 	'hrsh7th/nvim-cmp',
 	'hrsh7th/cmp-nvim-lsp',
 	'hrsh7th/cmp-buffer',
-	--'hrsh7th/vim-vsnip',
 	'andrewradev/switch.vim',
 	'tomtom/tcomment_vim',
 	'nvim-telescope/telescope.nvim',
@@ -120,8 +115,8 @@ vim.g.vimtex_quickfix_mode=0
 vim.opt.conceallevel=1
 vim.g.tex_conceal='abdmg'
 vim.opt.autochdir = true
-vim.keymap.set("n", "K", vim.lsp.buf.hover, {buffer=0})
-vim.keymap.set("n", "gd", vim.lsp.buf.definition, {buffer=0})
+vim.keymap.set("n", "K", vim.lsp.buf.hover)
+vim.keymap.set("n", "gd", vim.lsp.buf.definition)
 
 local api = require "nvim-tree.api"
 
@@ -134,31 +129,23 @@ local cmp = require'cmp'
 
   cmp.setup({
     snippet = {
-      -- REQUIRED - you must specify a snippet engine
       expand = function(args)
-        -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-        -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-        -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
-        vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+        vim.fn["UltiSnips#Anon"](args.body)
       end,
     },
     window = {
-      -- completion = cmp.config.window.bordered(),
-      -- documentation = cmp.config.window.bordered(),
     },
     mapping = cmp.mapping.preset.insert({
       ['<C-b>'] = cmp.mapping.scroll_docs(-4),
       ['<C-f>'] = cmp.mapping.scroll_docs(4),
       ['<C-Space>'] = cmp.mapping.complete(),
       ['<C-e>'] = cmp.mapping.abort(),
-      ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+      ['<CR>'] = cmp.mapping.confirm({ select = false }),
     }),
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
-      -- { name = 'vsnip' }, -- For vsnip users.
-      -- { name = 'luasnip' }, -- For luasnip users.
-      { name = 'ultisnips' }, -- For ultisnips users.
-      -- { name = 'snippy' }, -- For snippy users.
+			{ name = 'path' },
+      { name = 'ultisnips' },
     }, {
       { name = 'buffer' },
     })
@@ -169,6 +156,7 @@ local cmp = require'cmp'
   -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
   require('lspconfig')['texlab'].setup {
     capabilities = capabilities
+		    -- gd in normal mode will jump to definition
   }
 
   require('lspconfig')['ltex'].setup {
@@ -178,4 +166,44 @@ local cmp = require'cmp'
   require('lspconfig')['lua_ls'].setup {
     capabilities = capabilities
   }
+	local function on_attach(_, bufnr)
+    local function cmd(mode, lhs, rhs)
+      vim.keymap.set(mode, lhs, rhs, { noremap = true, buffer = true })
+    end
 
+    -- Autocomplete using the Lean language server
+    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+
+
+    -- <leader>n will jump to the next Lean line with a diagnostic message on it
+    -- <leader>N will jump backwards
+    cmd('n', '<leader>n', function() vim.diagnostic.goto_next{popup_opts = {show_header = false}} end)
+    cmd('n', '<leader>N', function() vim.diagnostic.goto_prev{popup_opts = {show_header = false}} end)
+
+    -- <leader>K will show all diagnostics for the current line in a popup window
+    cmd('n', '<leader>K', function() vim.diagnostic.open_float(0, { scope = "line", header = false, focus = false }) end)
+
+    -- <leader>q will load all errors in the current lean file into the location list
+    -- (and then will open the location list)
+    -- see :h location-list if you don't generally use it in other vim contexts
+    cmd('n', '<leader>q', vim.diagnostic.setloclist)
+end
+
+-- Enable lean.nvim, and enable abbreviations and mappings
+require('lean').setup{
+    abbreviations = { builtin = true },
+    lsp = { on_attach = on_attach },
+    lsp3 = { on_attach = on_attach },
+    mappings = true,
+}
+
+
+
+
+	vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    underline = true,
+    virtual_text = { spacing = 4 },
+    update_in_insert = true,
+  })
