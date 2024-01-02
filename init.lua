@@ -32,8 +32,10 @@ require("lazy").setup({
 	
 	'quangnguyen30192/cmp-nvim-ultisnips',
 
+	'KeitaNakamura/tex-conceal.vim',
+
 	{
-    'rose-pine/neovim',
+    'rosepine/neovim',
     priority = 1000,
     config = function()
       vim.cmd.colorscheme 'rose-pine'
@@ -85,6 +87,7 @@ require("lazy").setup({
 	'andrewradev/switch.vim',
 	'tomtom/tcomment_vim',
 	'nvim-telescope/telescope.nvim',
+	{ 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
 
 	{
   'Julian/lean.nvim',
@@ -113,6 +116,7 @@ vim.g.UltiSnipsSnippetDirectories={"UltiSnips"}
 vim.g.vimtex_view_method = 'zathura'
 vim.g.vimtex_quickfix_mode=0
 vim.opt.conceallevel=1
+vim.opt.spelllang=en_gb
 vim.g.tex_conceal='abdmg'
 vim.opt.autochdir = true
 vim.keymap.set("n", "K", vim.lsp.buf.hover)
@@ -207,3 +211,11 @@ require('lean').setup{
     virtual_text = { spacing = 4 },
     update_in_insert = true,
   })
+
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+
+require('telescope').load_extension('fzf')
