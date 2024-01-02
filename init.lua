@@ -47,7 +47,7 @@ require("lazy").setup({
 		config = true
 	},
 
-	'nvim-tree/nvim-web-devicons',
+	--'nvim-tree/nvim-web-devicons',
 
 	'nvim-lua/plenary.nvim',
 
@@ -57,7 +57,7 @@ require("lazy").setup({
 
 	'roxma/vim-hug-neovim-rpc',
 
-	--'nvim-treesitter/nvim-treesitter',
+	'nvim-treesitter/nvim-treesitter',
 
     {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
