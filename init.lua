@@ -34,20 +34,18 @@ require("lazy").setup({
 
 	'KeitaNakamura/tex-conceal.vim',
 
-	{
-    'rosepine/neovim',
-    priority = 1000,
-    config = function()
-      vim.cmd.colorscheme 'rose-pine'
-    end,
-  },
+	{ 'rose-pine/neovim',
+	name = 'rose-pine',
+	config = function()
+						vim.cmd('colorscheme rose-pine')
+	end},
 	
 	{
 		'NeogitOrg/neogit',
 		config = true
 	},
 
-	--'nvim-tree/nvim-web-devicons',
+	'nvim-tree/nvim-web-devicons',
 
 	'nvim-lua/plenary.nvim',
 
