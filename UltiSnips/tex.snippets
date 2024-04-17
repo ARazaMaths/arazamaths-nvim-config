@@ -13,30 +13,27 @@ endglobal
 
 
 snippet template "Basic template" b
-\documentclass[a4paper]{article}
-
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{textcomp}
-\usepackage[dutch]{babel}
-\usepackage{amsmath, amssymb}
-
-
-% figure support
-\usepackage{import}
-\usepackage{xifthen}
-\pdfminorversion=7
-\usepackage{pdfpages}
-\usepackage{transparent}
-\newcommand{\incfig}[1]{%
-	\def\svgwidth{\columnwidth}
-	\import{./figures/}{#1.pdf_tex}
-}
-
-\pdfsuppresswarningpagegroup=1
+\documentclass[12pt]{article}
+\usepackage{amsmath, amsthm, amsfonts, amssymb}
+\usepackage{mdframed, enumerate}
+\usepackage[margin = 1in]{geometry}
+\newcommand\sol[1]{\begin{mdframed}
+\emph{Solution.} #1
+\end{mdframed}}
+\newcommand\solproof[1]{\begin{mdframed}
+\begin{proof} #1
+\end{proof}
+\end{mdframed}}
 
 \begin{document}
-	$0
+\noindent Adil Raza \hfill  $1 
+
+\begin{center}
+	{\large MA$2: $3 \\\\ Assignment $4}
+\end{center}
+
+$5
+
 \end{document}
 endsnippet
 
@@ -126,7 +123,6 @@ snippet ali "Align" bA
 	${1:${VISUAL}}
 .\end{align*}
 endsnippet
-
 
 context "math()"
 snippet // "Fraction" iA
@@ -265,7 +261,7 @@ snippet conj "conjugate" iA
 endsnippet
 
 snippet sum "sum" w
-\sum_{n=${1:1}}^{${2:\infty}} ${3:a_n z^n}
+\sum_{i=${1:1}}^{${2:\infty}} $3
 endsnippet
 
 snippet taylor "taylor" w
@@ -289,11 +285,6 @@ snippet part "d/dx" w
 endsnippet
 
 context "math()"
-snippet sq "\sqrt{}" iA
-\sqrt{${1:${VISUAL}}} $0
-endsnippet
-
-context "math()"
 snippet sr "^2" iA
 ^2
 endsnippet
@@ -313,8 +304,14 @@ snippet rd "to the ... power" iA
 ^{($1)}$0
 endsnippet
 
+context "math()"
 snippet __ "subscript" iA
 _{$1}$0
+endsnippet
+
+context "math()"
+snippet ^^ "superscript" iA
+^{$1}$0
 endsnippet
 
 snippet ooo "\infty" iA
@@ -339,7 +336,7 @@ snippet EE "geq" iA
 endsnippet
 
 context "math()"
-snippet AA "forall" iA
+snippet forall "forall" iA
 \forall 
 endsnippet
 
@@ -415,6 +412,12 @@ snippet mcal "mathcal" iA
 \mathcal{$1}$0
 endsnippet
 
+context "math()"
+snippet mscr "mathscr" iA
+\mathscr{$1}$0
+endsnippet
+
+context "math()"
 snippet lll "l" iA
 \ell
 endsnippet
@@ -476,7 +479,7 @@ snippet !> "mapsto" iA
 endsnippet
 
 context "math()"
-snippet invs "inverse" iA
+snippet inv "inverse" iA
 ^{-1}
 endsnippet
 
@@ -518,17 +521,13 @@ snippet cc "subset" Ai
 \subset 
 endsnippet
 
-snippet notin "not in " iA
-\not\in 
-endsnippet
-
 context "math()"
 snippet inn "in " iA
 \in 
 endsnippet
 
 snippet NN "n" iA
-\N
+\mathbb{N}
 endsnippet
 
 snippet Nn "cap" iA
@@ -548,19 +547,19 @@ snippet nnn "bigcap" iA
 endsnippet
 
 snippet OO "emptyset" iA
-\O
+\varnothing
 endsnippet
 
 snippet RR "real" iA
-\R
+\mathbb{R}
 endsnippet
 
 snippet QQ "Q" iA
-\Q
+\mathbb{Q}
 endsnippet
 
 snippet ZZ "Z" iA
-\Z
+\mathbb{Z}
 endsnippet
 
 snippet <! "normal" iA
@@ -622,10 +621,22 @@ snippet "hat" "hat" riA
 \hat{$1}$0
 endsnippet
 
+priority 10
+context "math()"
+snippet "tilde" "tilde" riA
+\tilde{$1}$0
+endsnippet
+
 priority 100
 context "math()"
 snippet "([a-zA-Z])hat" "hat" riA
 \hat{`!p snip.rv=match.group(1)`}
+endsnippet
+
+priority 100
+context "math()"
+snippet "([a-zA-Z])tilde" "tilde" riA
+\tilde{`!p snip.rv=match.group(1)`}
 endsnippet
 
 snippet letw "let omega" iA
@@ -633,12 +644,64 @@ Let $\Omega \subset \C$ be open.
 endsnippet
 
 
+context "math()"
+snippet PP "P" iA
+\mathbb{P}
+endsnippet
+
+context "math()"
 snippet HH "H" iA
 \mathbb{H}
 endsnippet
 
+context "math()"
 snippet DD "D" iA
 \mathbb{D}
 endsnippet
 
+context "math()"
+snippet GG "G" iA
+\mathbb{G}
+endsnippet
+
+context "math()"
+snippet AA "A" iA
+\mathbb{A}
+endsnippet
+
+context "math()"
+snippet VV "V" iA
+\mathbb{V}
+endsnippet
+
+context "math()"
+snippet II "I" iA
+\mathbb{I}
+endsnippet
+
+context "math()"
+snippet kxn "kxn" iA
+k[x_1,\ldots,x_n]
+endsnippet
+
+context "math()"
+snippet FF "F" iA
+\mathbb{F}
+endsnippet
+
+context "math()"
+snippet mm "m" iA
+\mathfrak{m}
+endsnippet
+
+context "math()"
+snippet CC "C" iA
+\mathbb{C}
+endsnippet
+
+
+context "math()"
+snippet pp "p" iA
+\mathfrak{p}
+endsnippet
 # vim:ft=snippets

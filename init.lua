@@ -11,6 +11,8 @@ set.tabstop = 2
 set.softtabstop = 2
 set.shiftwidth = 2
 vim.opt.signcolumn = "yes:1"
+vim.opt.clipboard = "unnamedplus"
+vim.wo.relativenumber = true
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -39,7 +41,8 @@ require("lazy").setup({
 	config = function()
 						vim.cmd('colorscheme rose-pine')
 	end},
-	
+
+
 	{
 		'NeogitOrg/neogit',
 		config = true
@@ -56,7 +59,8 @@ require("lazy").setup({
 	'roxma/vim-hug-neovim-rpc',
 
 	--'nvim-treesitter/nvim-treesitter',
-
+	
+	-- lazy.nvim
     {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -86,6 +90,24 @@ require("lazy").setup({
 	'tomtom/tcomment_vim',
 	'nvim-telescope/telescope.nvim',
 	{ 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+
+  'nvim-lualine/lualine.nvim',
+	{
+  "rareitems/anki.nvim",
+  -- lazy -- don't lazy it, it tries to be as lazy possible and it needs to add a filetype association
+  opts = {
+    {
+      -- this function will add support for associating '.anki' extension with both 'anki' and 'tex' filetype.
+      tex_support = true,
+      models = {
+        -- Here you specify which notetype should be associated with which deck
+        NoteType = "PathToDeck",
+        ["Basic"] = "Deck", "Algebraic Geometry",
+        ["SuperBasic"] = "Deck::ChildDeck",
+      },
+    }
+  }
+},
 
 	{
   'Julian/lean.nvim',
@@ -128,15 +150,15 @@ require'nvim-tree'.setup{
 
 require'mason'.setup{}
 local cmp = require'cmp'
-
   cmp.setup({
     snippet = {
       expand = function(args)
         vim.fn["UltiSnips#Anon"](args.body)
       end,
     },
-    window = {
-    },
+    window = {completion = cmp.config.window.bordered(),
+		documentation = cmp.config.window.bordered(),
+		},
     mapping = cmp.mapping.preset.insert({
       ['<C-b>'] = cmp.mapping.scroll_docs(-4),
       ['<C-f>'] = cmp.mapping.scroll_docs(4),
@@ -161,8 +183,12 @@ local cmp = require'cmp'
 		    -- gd in normal mode will jump to definition
   }
 
-  require('lspconfig')['ltex'].setup {
-    capabilities = capabilities
+  require('lspconfig')['pyright'].setup {
+		capabilities = capabilities
+  }
+
+	require('lspconfig')['ltex'].setup {
+		capabilities = capabilities
   }
 
   require('lspconfig')['lua_ls'].setup {
@@ -217,3 +243,5 @@ vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 
 require('telescope').load_extension('fzf')
+require('lualine').setup()
+
