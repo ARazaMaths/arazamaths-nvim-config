@@ -192,7 +192,8 @@ local cmp = require'cmp'
   }
 
   require('lspconfig')['lua_ls'].setup {
-    capabilities = capabilities
+    capabilities = capabilities,
+		settings = { Lua = { diagnostics = { globals = { 'vim' } } } }
   }
 	local function on_attach(_, bufnr)
     local function cmd(mode, lhs, rhs)
