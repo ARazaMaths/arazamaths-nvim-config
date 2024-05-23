@@ -31,17 +31,25 @@ require("lazy").setup({
 	'lervag/vimtex',
 
 	'SirVer/ultisnips',
-	
+
 	'quangnguyen30192/cmp-nvim-ultisnips',
 
 	'KeitaNakamura/tex-conceal.vim',
 
-	{ 'rose-pine/neovim',
-	name = 'rose-pine',
+--'rose-pine/neovim',
+--	name = 'rose-pine',
+--	config = function()
+--						vim.cmd('colorscheme rose-pine')
+--	end},
+{
+  "neanias/everforest-nvim",
+  version = false,
+  lazy = false,
+  priority = 1000, -- make sure to load this before all the other start plugins
 	config = function()
-						vim.cmd('colorscheme rose-pine')
-	end},
-
+		vim.cmd('colorscheme everforest')
+	end
+},
 
 	{
 		'NeogitOrg/neogit',
@@ -59,7 +67,7 @@ require("lazy").setup({
 	'roxma/vim-hug-neovim-rpc',
 
 	--'nvim-treesitter/nvim-treesitter',
-	
+
 	-- lazy.nvim
     {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
@@ -244,5 +252,9 @@ vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 
 require('telescope').load_extension('fzf')
-require('lualine').setup()
-
+require("lualine").setup({
+  options = {
+    -- ... other configuration
+    theme = "everforest", -- Can also be "auto" to detect automatically.
+  }
+})
