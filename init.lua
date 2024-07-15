@@ -100,22 +100,6 @@ require("lazy").setup({
 	{ 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
 
   'nvim-lualine/lualine.nvim',
-	{
-  "rareitems/anki.nvim",
-  -- lazy -- don't lazy it, it tries to be as lazy possible and it needs to add a filetype association
-  opts = {
-    {
-      -- this function will add support for associating '.anki' extension with both 'anki' and 'tex' filetype.
-      tex_support = true,
-      models = {
-        -- Here you specify which notetype should be associated with which deck
-        NoteType = "PathToDeck",
-        ["Basic"] = "Deck", "Algebraic Geometry",
-        ["SuperBasic"] = "Deck::ChildDeck",
-      },
-    }
-  }
-},
 
 	{
   'Julian/lean.nvim',
