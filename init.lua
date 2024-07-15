@@ -36,20 +36,20 @@ require("lazy").setup({
 
 	'KeitaNakamura/tex-conceal.vim',
 
---'rose-pine/neovim',
---	name = 'rose-pine',
---	config = function()
---						vim.cmd('colorscheme rose-pine')
---	end},
-{
-  "neanias/everforest-nvim",
-  version = false,
-  lazy = false,
-  priority = 1000, -- make sure to load this before all the other start plugins
+	{'rose-pine/neovim',
+	name = 'rose-pine',
 	config = function()
-		vim.cmd('colorscheme everforest')
-	end
-},
+						vim.cmd('colorscheme rose-pine')
+	end},
+--{
+--  "neanias/everforest-nvim",
+--  version = false,
+--  lazy = false,
+--  priority = 1000, -- make sure to load this before all the other start plugins
+--	config = function()
+--		vim.cmd('colorscheme everforest')
+--	end
+--},
 
 	{
 		'NeogitOrg/neogit',
@@ -196,7 +196,13 @@ local cmp = require'cmp'
   }
 
 	require('lspconfig')['ltex'].setup {
-		capabilities = capabilities
+		capabilities = capabilities,
+		settings = {
+			ltex = {
+				language = "en-GB"
+			}
+		},
+		on_attach = on_attach,
   }
 
   require('lspconfig')['lua_ls'].setup {
@@ -255,6 +261,6 @@ require('telescope').load_extension('fzf')
 require("lualine").setup({
   options = {
     -- ... other configuration
-    theme = "everforest", -- Can also be "auto" to detect automatically.
+    theme = "rose-pine", -- Can also be "auto" to detect automatically.
   }
 })

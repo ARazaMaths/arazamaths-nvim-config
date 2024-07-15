@@ -129,30 +129,30 @@ snippet // "Fraction" iA
 \\frac{$1}{$2}$0
 endsnippet
 
-snippet / "Fraction" i
-\\frac{${VISUAL}}{$1}$0
-endsnippet
+#snippet / "Fraction" i
+#\\frac{${VISUAL}}{$1}$0
+#endsnippet
 
-context "math()"
-snippet '((\d+)|(\d*)(\\)?([A-Za-z]+)((\^|_)(\{\d+\}|\d))*)/' "symbol frac" wrA
-\\frac{`!p snip.rv = match.group(1)`}{$1}$0
-endsnippet
+#context "math()"
+#snippet '((\d+)|(\d*)(\\)?([A-Za-z]+)((\^|_)(\{\d+\}|\d))*)/' "symbol frac" wrA
+#\\frac{`!p snip.rv = match.group(1)`}{$1}$0
+#endsnippet
 
-priority 1000
-context "math()"
-snippet '^.*\)/' "() frac" wrA
-`!p
-stripped = match.string[:-1]
-depth = 0
-i = len(stripped) - 1
-while True:
-	if stripped[i] == ')': depth += 1
-	if stripped[i] == '(': depth -= 1
-	if depth == 0: break;
-	i-=1
-snip.rv = stripped[0:i] + "\\frac{" + stripped[i+1:-1] + "}"
-`{$1}$0
-endsnippet
+#priority 1000
+#context "math()"
+#snippet '^.*\)/' "() frac" wrA
+#`!p
+#stripped = match.string[:-1]
+#depth = 0
+#i = len(stripped) - 1
+#while True:
+#	if stripped[i] == ')': depth += 1
+#	if stripped[i] == '(': depth -= 1
+#	if depth == 0: break;
+#	i-=1
+#snip.rv = stripped[0:i] + "\\frac{" + stripped[i+1:-1] + "}"
+#`{$1}$0
+#endsnippet
 
 context "math()"
 snippet '([A-Za-z])(\d)' "auto subscript" wrA
@@ -418,6 +418,16 @@ snippet mscr "mathscr" iA
 endsnippet
 
 context "math()"
+snippet mfrak "mathfrak" iA
+\mathfrak{$1}$0
+endsnippet
+
+context "math()"
+snippet mrm "mathrm" iA
+\mathrm{$1}$0
+endsnippet
+
+context "math()"
 snippet lll "l" iA
 \ell
 endsnippet
@@ -538,17 +548,16 @@ snippet UU "cup" iA
 \cup 
 endsnippet
 
+context "math()"
 snippet uuu "bigcup" iA
 \bigcup_{${1:i \in ${2: I}}} $0
 endsnippet
 
+context "math()"
 snippet nnn "bigcap" iA
 \bigcap_{${1:i \in ${2: I}}} $0
 endsnippet
 
-snippet OO "emptyset" iA
-\varnothing
-endsnippet
 
 snippet RR "real" iA
 \mathbb{R}
@@ -595,7 +604,7 @@ endsnippet
 snippet bigfun "Big function" iA
 \begin{align*}
 	$1: $2 &\longrightarrow $3 \\\\
-	$4 &\longmapsto $1($4) = $0
+	$4 &\longmapsto $0
 .\end{align*}
 endsnippet
 
@@ -676,7 +685,7 @@ endsnippet
 
 context "math()"
 snippet II "I" iA
-\mathbb{I}
+\mathscr{I}
 endsnippet
 
 context "math()"
@@ -690,11 +699,6 @@ snippet FF "F" iA
 endsnippet
 
 context "math()"
-snippet mm "m" iA
-\mathfrak{m}
-endsnippet
-
-context "math()"
 snippet CC "C" iA
 \mathbb{C}
 endsnippet
@@ -703,5 +707,27 @@ endsnippet
 context "math()"
 snippet pp "p" iA
 \mathfrak{p}
+endsnippet
+
+
+context "math()"
+snippet GLn "GLn" iA
+\mathrm{GL}_n
+endsnippet
+
+
+context "math()"
+snippet SLn "SLn" iA
+\mathrm{SL}_n
+endsnippet
+
+context "math()"
+snippet Bn "Bn" iA
+\mathrm{B}_n
+endsnippet
+
+context "math()"
+snippet OO "mscrO" iA
+\mathscr{O}
 endsnippet
 # vim:ft=snippets
